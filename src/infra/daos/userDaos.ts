@@ -27,4 +27,12 @@ export class UserDAO implements IUserRepo {
     return user as User;
   }
 
+  async update(data: NewUser, id: User['id']): Promise<void> {
+    const user = await UserModel.update({ name: data.name }, {
+      where: {
+        id,
+      }
+    });
+  }
+
 }

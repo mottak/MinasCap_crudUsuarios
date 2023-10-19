@@ -1,4 +1,4 @@
-import { NewUser, User } from "../../domain/models"
+import { NewUser, UpdateUser, User } from "../../domain/models"
 import { IUserTasks } from "../../presentation/tasks/userTasks"
 import { CustomError } from "../errors/customError"
 import { IUserRepo } from "../repos/userRepo"
@@ -30,6 +30,10 @@ export class UserTasks implements IUserTasks {
   async findOne(id: User['id']): Promise<User> {
     const user = await this.userRepo.findById(id);
     return user;
+  }
+
+  async update(data: UpdateUser, id: User['id']): Promise<void> {
+    await this.userRepo.update(data, id);
   }
 
 }

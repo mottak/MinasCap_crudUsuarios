@@ -8,3 +8,7 @@ export type NewUser = {
   name: string
   email: string
 }
+
+export type UpdateUser = {
+  name: string
+}

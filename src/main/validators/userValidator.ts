@@ -10,3 +10,10 @@ export const userSchema = Joi.object<NewUser>({
     .email()
     .required()
 })
+
+export const updateSchema = Joi.object<NewUser>({
+  name: Joi.string()
+    .min(3)
+    .required(),
+
+})

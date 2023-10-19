@@ -1,6 +1,7 @@
-import { NewUser, User } from '../../domain/models'
+import { NewUser, UpdateUser, User } from '../../domain/models'
 import { IUserCase } from '../../domain/cases/userCases'
 import { IUserTasks } from '../tasks/userTasks'
+import { Message } from '../../domain/generics/message'
 
 
 export class UserCase implements IUserCase {
@@ -21,8 +22,13 @@ export class UserCase implements IUserCase {
     return users;
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: User['id']): Promise<User> {
     const user = await this.userTasks.findOne(id);
     return user;
+  }
+
+  async update(data: UpdateUser, id: User['id']): Promise<Message> {
+    const user = await this.userTasks.update(data, id);
+    return { message: 'Usuário atualizado com sucesso.'};
   }
 }
