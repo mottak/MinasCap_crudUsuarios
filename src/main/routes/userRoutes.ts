@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { userSchema } from '../validators/userValidator'
 import { userFactory } from '../factories/userFactorie'
+import { idSchema } from '../validators/idValidator'
 
 const userRoutes = Router()
 
@@ -15,6 +16,14 @@ userRoutes.post('/user', async (req, res) => {
 userRoutes.get('/user', async (req, res) => {
 
   const resultUser = await userFactory().find()
+
+  return res.status(200).json(resultUser)
+})
+
+userRoutes.get('/user/:id', async (req, res) => {
+  const idUser = await idSchema.validateAsync(req.params)
+  const { id } = idUser;
+  const resultUser = await userFactory().findOne(id)
 
   return res.status(200).json(resultUser)
 })

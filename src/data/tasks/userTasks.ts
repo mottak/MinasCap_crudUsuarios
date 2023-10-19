@@ -10,11 +10,10 @@ export class UserTasks implements IUserTasks {
   ) {
 
   }
- 
+   
   async add(userData: NewUser): Promise<User> {
    
     const user = await this.userRepo.add(userData);
-    console.log('data/tasks', user);
     return user;
   }
 
@@ -26,6 +25,11 @@ export class UserTasks implements IUserTasks {
   async find(): Promise<User[]> {
     const users = await this.userRepo.findAll();
     return users;
+  }
+
+  async findOne(id: User['id']): Promise<User> {
+    const user = await this.userRepo.findById(id);
+    return user;
   }
 
 }

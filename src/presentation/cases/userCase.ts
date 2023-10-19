@@ -20,4 +20,9 @@ export class UserCase implements IUserCase {
     const users = await this.userTasks.find();
     return users;
   }
+
+  async findOne(id: number): Promise<User> {
+    const user = await this.userTasks.findOne(id);
+    return user;
+  }
 }

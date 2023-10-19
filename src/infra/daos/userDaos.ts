@@ -22,4 +22,9 @@ export class UserDAO implements IUserRepo {
     return users
   }
 
+  async findById(id: User['id']): Promise<User> {
+    const user = await UserModel.findByPk(id);
+    return user as User;
+  }
+
 }
