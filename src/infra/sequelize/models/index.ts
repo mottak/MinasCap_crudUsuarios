@@ -1,16 +1,12 @@
-// import { Sequelize } from 'sequelize';
-// import * as config from '../config/database';
+// import { Sequelize } from 'sequelize-typescript';
+import { Sequelize } from "sequelize"
+// const sequelize = new Sequelize({
+//   database: 'users_db',
+//   dialect: 'postgres',
+//   username: 'kissyla',
+//   password: '123456',
+//   models: [__dirname + './User'], 
+// });
+const sequelize = new Sequelize('postgres://kissyla:123456@localhost:5432/users_db')
 
-// const sequelize = new Sequelize(config)
-
-// export default sequelize;
-
-import { Sequelize } from 'sequelize-typescript';
-
-const sequelize = new Sequelize({
-  database: 'some_db',
-  dialect: 'postgres',
-  username: 'kissyla',
-  password: '123456',
-  models: [__dirname + '/models'+ 'User'], 
-});
+export default sequelize
