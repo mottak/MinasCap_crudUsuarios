@@ -1,4 +1,3 @@
-import { Message } from '../../domain/generics/message'
 import { NewUser, UpdateUser, User, } from '../../domain/models'
 
 export interface IUserTasks {
