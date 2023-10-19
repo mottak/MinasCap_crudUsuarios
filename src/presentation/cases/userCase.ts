@@ -31,4 +31,8 @@ export class UserCase implements IUserCase {
     const user = await this.userTasks.update(data, id);
     return { message: 'Usuário atualizado com sucesso.'};
   }
+
+  async delete(id: User['id']): Promise<void> {
+    const user = await this.userTasks.delete(id);
+  }
 }

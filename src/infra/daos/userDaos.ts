@@ -35,4 +35,12 @@ export class UserDAO implements IUserRepo {
     });
   }
 
+  async delete(id: User['id']): Promise<void> {
+    const user = await UserModel.destroy({
+      where: {
+        id,
+      }
+    });
+  }
+
 }

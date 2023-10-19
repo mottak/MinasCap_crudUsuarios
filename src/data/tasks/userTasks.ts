@@ -36,4 +36,8 @@ export class UserTasks implements IUserTasks {
     await this.userRepo.update(data, id);
   }
 
+  async delete(id: User['id']): Promise<void> {
+    await this.userRepo.delete(id);
+  }
+
 }

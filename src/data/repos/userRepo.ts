@@ -6,4 +6,5 @@ export interface IUserRepo {
   findAll(): Promise<User[]>
   findById(id: User['id']): Promise<User>
   update(data: UpdateUser, id: User['id']): Promise<void>
+  delete(id: User['id']): Promise<void>
 }

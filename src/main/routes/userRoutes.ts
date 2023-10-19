@@ -38,5 +38,14 @@ userRoutes.put('/user/:id', async (req, res) => {
   return res.status(201).json(resultUser)
 })
 
+userRoutes.delete('/user/:id', async (req, res) => {
+  const idUser = await idSchema.validateAsync(req.params)
+  const { id } = idUser;
+  await userFactory().delete(id)
+
+
+  return res.status(204).json()
+})
+
 
 export default userRoutes

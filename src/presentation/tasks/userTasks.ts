@@ -7,5 +7,5 @@ export interface IUserTasks {
   find(): Promise<User[]>
   findOne(id: User['id']): Promise<User>
   update(data: UpdateUser, id: User['id']): Promise<void>
-  // delete(id: User['id']): Promise<Message>
+  delete(id: User['id']): Promise<void>
 }
