@@ -17,6 +17,7 @@
     "@types/express": "^4.17.20",
     "@types/node": "^20.8.7",
     "@types/sequelize": "^4.28.17",
+    "joi": "^17.11.0",
     "nodemon": "^3.0.1",
     "sequelize-cli": "^6.6.1",
     "ts-node": "^10.9.1",
