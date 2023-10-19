@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/index.ts"
+    "dev": "nodemon ./src/index.ts",
+    "db:create": "cd ./src/infra && createdb users_db",
+    "db:migrate": "cd ./src/infra && sequelize-cli db:migrate",
+    "db:drop": "cd ./src/infra && sequelize-cli db:drop",
+    "db:seed": "cd ./src/infra && sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "",
