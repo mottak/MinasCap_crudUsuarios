@@ -10,17 +10,22 @@ export class UserTasks implements IUserTasks {
   ) {
 
   }
-
+ 
   async add(userData: NewUser): Promise<User> {
    
-    const user = await this.userRepo.add(userData)
-    console.log('data/tasks', user)
-    return user
+    const user = await this.userRepo.add(userData);
+    console.log('data/tasks', user);
+    return user;
   }
 
   async checkEmail(email: NewUser['email']): Promise<void> {
     const userEmail = await this.userRepo.findByEmail(email)
-    if (userEmail) throw new CustomError('"Email" is already in use', 'UnauthorizedError')
+    if (userEmail) throw new CustomError('"Email" is already in use', 'UnauthorizedError');
+  }
+
+  async find(): Promise<User[]> {
+    const users = await this.userRepo.findAll();
+    return users;
   }
 
 }

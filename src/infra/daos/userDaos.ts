@@ -4,6 +4,7 @@ import UserModel from "../sequelize/models/User";
 
 
 export class UserDAO implements IUserRepo {
+ 
   async add(data: NewUser): Promise<User> {
      
     const user = await UserModel.create({ name: data.name, email: data.email });
@@ -13,8 +14,12 @@ export class UserDAO implements IUserRepo {
 
   async findByEmail(data: NewUser['email']): Promise<User> {
     const user = await UserModel.findOne({ where: { email: data }});
-    return user as unknown as User;
+    return user as User;
   }
   
+  async findAll(): Promise<User[]> {
+    const users = await UserModel.findAll();
+    return users
+  }
 
 }

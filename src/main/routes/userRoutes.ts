@@ -5,13 +5,18 @@ import { userFactory } from '../factories/userFactorie'
 const userRoutes = Router()
 
 userRoutes.post('/user', async (req, res) => {
-  console.log(req.body)
   const dataUser = await userSchema.validateAsync(req.body)
-  console.log(dataUser)
-  const resultUserRegister = await userFactory().add(dataUser)
+  const resultUser = await userFactory().add(dataUser)
 
 
-  return res.status(201).json(resultUserRegister)
+  return res.status(201).json(resultUser)
+})
+
+userRoutes.get('/user', async (req, res) => {
+
+  const resultUser = await userFactory().find()
+
+  return res.status(200).json(resultUser)
 })
 
 

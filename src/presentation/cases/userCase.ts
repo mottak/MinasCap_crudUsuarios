@@ -8,12 +8,16 @@ export class UserCase implements IUserCase {
   constructor(
     readonly userTasks: IUserTasks,
   ) { }
-
+ 
   async add(user: NewUser): Promise<User> {
-    console.log('UserCase.add', user)
     await this.userTasks.checkEmail(user.email)
     const newUser = await this.userTasks.add(user)
     return newUser;
   
+  }
+
+  async find(): Promise<User[]> {
+    const users = await this.userTasks.find();
+    return users;
   }
 }
