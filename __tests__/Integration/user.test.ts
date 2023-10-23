@@ -58,6 +58,56 @@ describe('GET /api/user/:id', () => {
 
 })
 
+describe('POST /api/user', () => {
+
+  afterEach(() => {
+    sinon.restore()
+  })
+
+  it('Cria um novo usuário no banco de dados - status 201', async () => {
+    sinon.stub(UserDAO.prototype, 'add').resolves(userById)
+
+    const result = await chai.request(app)
+      .post('/api/user')
+      .send({
+        name:'Raissa da Silva',
+        email: 'raissa@email.com'
+      })
+
+    expect(result.status).to.be.equal(201);
+    expect(result.body).to.be.an('object')
+    expect(result.body).to.have.property('id')
+    expect(result.body).to.have.property('name')
+    expect(result.body).to.have.property('email')
+
+  })
+
+  it('Tenta cadastrar um novo usuário com nome menor que 3 letras', async () => {
+    const result = await chai.request(app)
+      .post('/api/user')
+      .send({
+        name:'Ra',
+        email: 'raissa@rmail.com'
+      })
+
+    expect(result.status).to.be.equal(400);
+    expect(result.body).to.be.deep.equal({ message: '"name" length must be at least 3 characters long' })
+  })
+
+  it('Tenta cadastrar um novo usuário com email invalido', async () => {
+    const result = await chai.request(app)
+      .post('/api/user')
+      .send({
+        name:'Raissa da Silva',
+        email: 'raissarmail.com'
+      })
+
+    expect(result.status).to.be.equal(400);
+    expect(result.body).to.be.deep.equal({ message: '"email" must be a valid email' })
+  })
+
+})
+
 
 
 
