@@ -37,6 +37,27 @@ describe('GET /api/user', () => {
 
 })
 
+describe('GET /api/user/:id', () => {
+
+  afterEach(() => {
+    sinon.restore()
+  })
+
+  it('Retorna os usuário com sucesso - status 200', async () => {
+    sinon.stub(UserDAO.prototype, 'findById').resolves(userById)
+
+    const result = await chai.request(app).get('/api/user/1')
+
+    expect(result.status).to.be.equal(200);
+    expect(result.body).to.be.an('object')
+    expect(result.body).to.have.property('id')
+    expect(result.body).to.have.property('name')
+    expect(result.body).to.have.property('email')
+
+  })
+
+})
+
 
 
 
