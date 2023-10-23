@@ -130,7 +130,19 @@ describe('PUT /api/user/:id', () => {
 
   })
 
+  it('Tenta atualizar um novo usuário com nome menor que 3 letras', async () => {
+    const result = await chai.request(app)
+      .put('/api/user/1')
+      .send({
+        name:'Ra',
+      })
+
+    expect(result.status).to.be.equal(400);
+    expect(result.body).to.be.deep.equal({ message: '"name" length must be at least 3 characters long' })
+  })
+
 })
+
 
 
 
