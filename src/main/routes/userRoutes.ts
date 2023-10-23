@@ -35,7 +35,7 @@ userRoutes.put('/user/:id', async (req, res) => {
   const resultUser = await userFactory().update(dataUser, id)
 
 
-  return res.status(201).json(resultUser)
+  return res.status(200).json(resultUser)
 })
 
 userRoutes.delete('/user/:id', async (req, res) => {
