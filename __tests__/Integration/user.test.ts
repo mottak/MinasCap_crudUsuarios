@@ -108,6 +108,30 @@ describe('POST /api/user', () => {
 
 })
 
+describe('PUT /api/user/:id', () => {
+
+  afterEach(() => {
+    sinon.restore()
+  })
+
+  it('Atualiza um usuário no banco de dados - status 200', async () => {
+    sinon.stub(UserDAO.prototype, 'update').resolves()
+
+    const result = await chai.request(app)
+      .put('/api/user/2')
+      .send({
+        name: 'Raissa da Silva',
+      })
+
+    expect(result.status).to.be.equal(200);
+    expect(result.body).to.be.an('object')
+    expect(result.body).to.have.property('message')
+    expect(result.body).to.be.deep.equal({ message: 'Usuário atualizado com sucesso.'})
+
+  })
+
+})
+
 
 
 
