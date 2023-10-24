@@ -2,7 +2,7 @@ import * as sinon from 'sinon';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../src/index'
-import { UserDAO } from '../../src/infra/daos/userDaos';
+import UserModel from "../../src/infra/sequelize/models/User";
 import { expect } from 'chai'
 import { allUsers, userById } from './mocks/userMocks';
 
@@ -16,7 +16,7 @@ describe('GET /api/user', () => {
   })
 
   it('Retorna os usuários existentes com sucesso - status 200', async () => {
-    sinon.stub(UserDAO.prototype, 'findAll').resolves(allUsers)
+    sinon.stub(UserModel, 'findAll').resolves(allUsers as any)
 
     const result = await chai.request(app).get('/api/user')
 
@@ -29,7 +29,7 @@ describe('GET /api/user', () => {
   })
 
   it('Retornar status 500 se o banco de dados não resolver', async () => {
-    sinon.stub(UserDAO.prototype, 'findAll').rejects();
+    sinon.stub(UserModel, 'findAll').rejects();
     const result = await chai.request(app).get('/api/user')
 
     expect(result.status).to.be.equal(500);
@@ -43,8 +43,8 @@ describe('GET /api/user/:id', () => {
     sinon.restore()
   })
 
-  it('Retorna os usuário com sucesso - status 200', async () => {
-    sinon.stub(UserDAO.prototype, 'findById').resolves(userById)
+  it('Retorna o usuário com sucesso - status 200', async () => {
+    sinon.stub(UserModel, 'findByPk').resolves(userById as any)
 
     const result = await chai.request(app).get('/api/user/1')
 
@@ -53,6 +53,20 @@ describe('GET /api/user/:id', () => {
     expect(result.body).to.have.property('id')
     expect(result.body).to.have.property('name')
     expect(result.body).to.have.property('email')
+
+  })
+
+  it('Tenta buscar um usuário com id que não existe no banco de dados - status 404', async () => {
+    sinon.stub(UserModel, 'findByPk').resolves(null)
+
+    const result = await chai.request(app).get('/api/user/50')
+
+    expect(result.status).to.be.equal(404);
+    expect(result.body).to.be.an('object');
+    expect(result.body).to.have.property('message');
+    expect(result.body).to.be.deep.equal({
+      message: "Não existe usuário com o id informado."
+    });
 
   })
 
@@ -65,7 +79,7 @@ describe('POST /api/user', () => {
   })
 
   it('Cria um novo usuário no banco de dados - status 201', async () => {
-    sinon.stub(UserDAO.prototype, 'add').resolves(userById)
+    sinon.stub(UserModel, 'create').resolves(userById as any)
 
     const result = await chai.request(app)
       .post('/api/user')
@@ -115,7 +129,7 @@ describe('PUT /api/user/:id', () => {
   })
 
   it('Atualiza um usuário no banco de dados - status 200', async () => {
-    sinon.stub(UserDAO.prototype, 'update').resolves()
+    sinon.stub(UserModel, 'update').resolves()
 
     const result = await chai.request(app)
       .put('/api/user/2')
