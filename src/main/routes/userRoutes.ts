@@ -21,18 +21,15 @@ userRoutes.get('/user', async (req, res) => {
 })
 
 userRoutes.get('/user/:id', async (req, res) => {
-  const idUser = await idSchema.validateAsync(req.params)
-  const { id } = idUser;
-  const resultUser = await userFactory().findOne(id)
+  const resultUser = await userFactory().findOne(Number(req.params.id))
 
   return res.status(200).json(resultUser)
 })
 
 userRoutes.put('/user/:id', async (req, res) => {
   const dataUser = await updateSchema.validateAsync(req.body)
-  const idUser = await idSchema.validateAsync(req.params)
-  const { id } = idUser;
-  const resultUser = await userFactory().update(dataUser, id)
+ 
+  const resultUser = await userFactory().update(dataUser, Number(req.params.id))
 
 
   return res.status(200).json(resultUser)

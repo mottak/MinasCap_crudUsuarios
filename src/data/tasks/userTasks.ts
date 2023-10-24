@@ -29,6 +29,9 @@ export class UserTasks implements IUserTasks {
 
   async findOne(id: User['id']): Promise<User> {
     const user = await this.userRepo.findById(id);
+    if(!user) {
+      throw new CustomError('Não existe usuário com o id informado.', 'NotFound');
+    }
     return user;
   }
 
