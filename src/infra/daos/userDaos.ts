@@ -29,11 +29,12 @@ export class UserDAO implements IUserRepo {
   }
 
   async update(data: NewUser, id: User['id']): Promise<void> {
-    const user = await UserModel.update({ name: data.name }, {
+    const [user] = await UserModel.update({ name: data.name }, {
       where: {
         id,
       }
     });
+    if(user === 0) throw new CustomError('O id informado não existe.', 'NotFound')
   }
 
   async delete(id: User['id']): Promise<void> {
@@ -42,7 +43,7 @@ export class UserDAO implements IUserRepo {
         id,
       }
     });
-    if(user == 0) throw new CustomError('O id informado não existe.', 'NotFound')
+    if(user === 0) throw new CustomError('O id informado não existe.', 'NotFound')
   }
 
 }
