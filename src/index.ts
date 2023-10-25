@@ -13,6 +13,6 @@ app.use(routes)
 
 app.use(errorMiddleware)
 
-
-
 app.listen(PORT, () => console.log(`RUNNING PORT ${PORT}`));
+
+export default app;

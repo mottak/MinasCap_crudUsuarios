@@ -19,7 +19,7 @@ export class UserTasks implements IUserTasks {
 
   async checkEmail(email: NewUser['email']): Promise<void> {
     const userEmail = await this.userRepo.findByEmail(email)
-    if (userEmail) throw new CustomError('"Email" is already in use', 'UnauthorizedError');
+    if (userEmail) throw new CustomError('"Email" informado já está em uso', 'UnauthorizedError');
   }
 
   async find(): Promise<User[]> {
@@ -29,6 +29,9 @@ export class UserTasks implements IUserTasks {
 
   async findOne(id: User['id']): Promise<User> {
     const user = await this.userRepo.findById(id);
+    if(!user) {
+      throw new CustomError('Não existe usuário com o id informado.', 'NotFound');
+    }
     return user;
   }
 
