@@ -179,7 +179,7 @@ describe('PUT /api/user/:id', () => {
      
 
     expect(result.status).to.be.equal(404);
-    // expect(result.body).to.be.deep.equal({ message: 'O id informado não existe.' });
+    expect(result.body).to.be.deep.equal({ message: 'O id informado não existe.' });
   
   })
 
