@@ -157,6 +157,27 @@ describe('PUT /api/user/:id', () => {
 
 })
 
+describe('DELETE /api/user/:id', () => {
+
+  afterEach(() => {
+    sinon.restore()
+  })
+
+  it('Deleta um usuário no banco de dados - status 200', async () => {
+    sinon.stub(UserModel, 'destroy').resolves()
+
+    const result = await chai.request(app)
+      .delete('/api/user/2')
+     
+
+    expect(result.status).to.be.equal(204);
+  
+  })
+
+ 
+
+})
+
 
 
 
