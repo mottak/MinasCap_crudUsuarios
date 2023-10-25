@@ -1,3 +1,4 @@
+import { CustomError } from "../../data/errors/customError";
 import { IUserRepo } from "../../data/repos/userRepo";
 import { NewUser, User } from "../../domain/models";
 import UserModel from "../sequelize/models/User";
@@ -41,6 +42,7 @@ export class UserDAO implements IUserRepo {
         id,
       }
     });
+    if(user == 0) throw new CustomError('O id informado não existe.', 'NotFound')
   }
 
 }
