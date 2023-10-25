@@ -157,20 +157,32 @@ describe('PUT /api/user/:id', () => {
 
 })
 
-describe('DELETE /api/user/:id', () => {
+describe.only('DELETE /api/user/:id', () => {
 
   afterEach(() => {
     sinon.restore()
   })
 
   it('Deleta um usuário no banco de dados - status 200', async () => {
-    sinon.stub(UserModel, 'destroy').resolves()
+    sinon.stub(UserModel, 'destroy').resolves(1)
 
     const result = await chai.request(app)
       .delete('/api/user/2')
      
 
     expect(result.status).to.be.equal(204);
+  
+  })
+
+  it('Tenta deletar um usuário que não existe no banco de dados - status 404', async () => {
+    sinon.stub(UserModel, 'destroy').resolves(0)
+
+    const result = await chai.request(app)
+      .delete('/api/user/20')
+     
+
+    expect(result.status).to.be.equal(404);
+    expect(result.body).to.be.deep.equal({ message: 'O id informado não existe.' });
   
   })
 
