@@ -120,6 +120,19 @@ describe('POST /api/user', () => {
     expect(result.body).to.be.deep.equal({ message: '"email" must be a valid email' })
   })
 
+  it('Tenta cadastrar um novo usuário com email já cadastrado no banco de dados', async () => {
+    sinon.stub(UserModel, 'findOne').resolves(userById as any)
+    const result = await chai.request(app)
+      .post('/api/user')
+      .send({
+        name: 'João Souza',
+        email: 'joao@email.com',
+      })
+
+    expect(result.status).to.be.equal(401);
+    expect(result.body).to.be.deep.equal({ message: '"Email" informado já está em uso' })
+  })
+
 })
 
 describe('PUT /api/user/:id', () => {
@@ -129,7 +142,7 @@ describe('PUT /api/user/:id', () => {
   })
 
   it('Atualiza um usuário no banco de dados - status 200', async () => {
-    sinon.stub(UserModel, 'update').resolves()
+    sinon.stub(UserModel, 'update').resolves([1])
 
     const result = await chai.request(app)
       .put('/api/user/2')
@@ -155,9 +168,24 @@ describe('PUT /api/user/:id', () => {
     expect(result.body).to.be.deep.equal({ message: '"name" length must be at least 3 characters long' })
   })
 
+  it('Tenta atualizar um usuário que não existe no banco de dados - status 404', async () => {
+    sinon.stub(UserModel, 'update').resolves([0])
+
+    const result = await chai.request(app)
+      .put('/api/user/20')
+      .send({
+        name: 'Raissa da Silva',
+      })
+     
+
+    expect(result.status).to.be.equal(404);
+    // expect(result.body).to.be.deep.equal({ message: 'O id informado não existe.' });
+  
+  })
+
 })
 
-describe.only('DELETE /api/user/:id', () => {
+describe('DELETE /api/user/:id', () => {
 
   afterEach(() => {
     sinon.restore()
