@@ -9,13 +9,12 @@ export class UserDAO implements IUserRepo {
   async add(data: NewUser): Promise<User> {
      
     const user = await UserModel.create({ name: data.name, email: data.email });
-
     return user;
   }
 
-  async findByEmail(data: NewUser['email']): Promise<User> {
+  async findByEmail(data: NewUser['email']): Promise<User | null> {
     const user = await UserModel.findOne({ where: { email: data }});
-    return user as User;
+    return user;
   }
   
   async findAll(): Promise<User[]> {
